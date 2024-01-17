@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TimeLogs.DB.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Project",
+                name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,11 +21,11 @@ namespace TimeLogs.DB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Project", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -36,11 +36,11 @@ namespace TimeLogs.DB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeLog",
+                name: "TimeLogs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -52,29 +52,29 @@ namespace TimeLogs.DB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeLog", x => x.Id);
+                    table.PrimaryKey("PK_TimeLogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TimeLog_Project_ProjectId",
+                        name: "FK_TimeLogs_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TimeLog_User_UserId",
+                        name: "FK_TimeLogs_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeLog_ProjectId",
-                table: "TimeLog",
+                name: "IX_TimeLogs_ProjectId",
+                table: "TimeLogs",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeLog_UserId",
-                table: "TimeLog",
+                name: "IX_TimeLogs_UserId",
+                table: "TimeLogs",
                 column: "UserId");
         }
 
@@ -82,13 +82,13 @@ namespace TimeLogs.DB.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TimeLog");
+                name: "TimeLogs");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

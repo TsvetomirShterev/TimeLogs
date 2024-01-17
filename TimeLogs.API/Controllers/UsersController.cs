@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TimeLogs.Services.Dto.Users;
-using TimeLogs.Services.Services.User;
+using TimeLogs.Services.Services.Users;
 
 namespace TimeLogs.API.Controllers;
 

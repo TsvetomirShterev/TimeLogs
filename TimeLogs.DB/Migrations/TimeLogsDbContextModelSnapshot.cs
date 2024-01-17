@@ -37,7 +37,7 @@ namespace TimeLogs.DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("TimeLogs.DB.Entities.TimeLog", b =>
@@ -66,7 +66,7 @@ namespace TimeLogs.DB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TimeLog");
+                    b.ToTable("TimeLogs");
                 });
 
             modelBuilder.Entity("TimeLogs.DB.Entities.User", b =>
@@ -94,7 +94,7 @@ namespace TimeLogs.DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TimeLogs.DB.Entities.TimeLog", b =>

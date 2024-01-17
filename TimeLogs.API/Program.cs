@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TimeLogs.API.Infrastructure;
 using TimeLogs.DB;

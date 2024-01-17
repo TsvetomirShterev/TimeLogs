@@ -15,9 +15,9 @@ public class TimeLogsDbContext : DbContext
 
     }
 
-    public virtual Project Project { get; set; }
-    public virtual TimeLog TimeLog { get; set; }
-    public virtual User User { get; set; }
+    public virtual DbSet<Project> Projects { get; set; }
+    public virtual DbSet<TimeLog> TimeLogs { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,8 +61,6 @@ public class TimeLogsDbContext : DbContext
            .HasForeignKey(t => t.UserId);
         });
     }
-
-
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
