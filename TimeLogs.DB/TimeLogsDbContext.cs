@@ -10,7 +10,7 @@ public class TimeLogsDbContext : DbContext
 
     }
 
-    public TimeLogsDbContext(DbContextOptions<TimeLogsDbContext> options)
+    public TimeLogsDbContext(DbContextOptions<TimeLogsDbContext> options) : base(options)
     {
 
     }
