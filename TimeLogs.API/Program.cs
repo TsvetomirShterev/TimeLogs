@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using TimeLogs.API.Infrastructure;
 using TimeLogs.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+ServiceSettings.BuildServices(builder);
 
 // Add services to the container.
 
