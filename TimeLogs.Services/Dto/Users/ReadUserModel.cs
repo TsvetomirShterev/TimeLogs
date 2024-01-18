@@ -5,6 +5,8 @@ namespace TimeLogs.Services.Dto.Users;
 
 public class ReadUserModel
 {
+    public int Id { get; set; }
+
     [Required]
     public string FirstName { get; set; }
 

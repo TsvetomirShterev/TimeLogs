@@ -14,13 +14,15 @@ public static class DataSeeder
 
         ClearTables(timeLogsDbContext);
         SeedUsersTable(timeLogsDbContext);
+        SeedProjectsTable(timeLogsDbContext);
+        SeedTimeLogsTable(timeLogsDbContext);
     }
 
     private static void ClearTables(TimeLogsDbContext timeLogsDbContext)
     {
         timeLogsDbContext.Users.RemoveRange(timeLogsDbContext.Users);
-        //timeLogsDbContext.Projects.RemoveRange(timeLogsDbContext.Projects);
-        //timeLogsDbContext.TimeLogs.RemoveRange(timeLogsDbContext.TimeLogs);
+        timeLogsDbContext.Projects.RemoveRange(timeLogsDbContext.Projects);
+        timeLogsDbContext.TimeLogs.RemoveRange(timeLogsDbContext.TimeLogs);
 
         timeLogsDbContext.SaveChanges();
     }
@@ -53,6 +55,50 @@ public static class DataSeeder
         }
 
         timeLogsDbContext.Users.AddRange(users);
+        timeLogsDbContext.SaveChanges();
+    }
+
+    private static void SeedProjectsTable(TimeLogsDbContext timeLogsDbContext)
+    {
+        var projects = new List<Project>()
+            {
+                new Project { Name = "My own" },
+                new Project { Name = "Free Time" },
+                new Project { Name = "Work" }
+            };
+
+        timeLogsDbContext.Projects.AddRange(projects);
+        timeLogsDbContext.SaveChanges();
+    }
+
+    private static void SeedTimeLogsTable(TimeLogsDbContext timeLogsDbContext)
+    {
+        var random = new Random();
+
+        var users = timeLogsDbContext.Users.ToList();
+        var projects = timeLogsDbContext.Projects.ToList();
+
+        foreach (var user in users)
+        {
+            var numberOfEntries = random.Next(1, 21);
+
+            for (int i = 0; i < numberOfEntries; i++)
+            {
+                var project = projects[random.Next(projects.Count)];
+                var hoursWorked = (float)(random.NextDouble() * (8.00 - 0.25) + 0.25);
+
+                var timeLog = new TimeLog
+                {
+                    UserId = user.Id,
+                    ProjectId = project.Id,
+                    LogDate = DateTime.Now.AddDays(-random.Next(1, 365)),
+                    HoursWorked = hoursWorked
+                };
+
+                timeLogsDbContext.TimeLogs.Add(timeLog);
+            }
+        }
+
         timeLogsDbContext.SaveChanges();
     }
 }
