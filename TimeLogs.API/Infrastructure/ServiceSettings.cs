@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TimeLogs.DB.Commands.Users;
+using TimeLogs.DB.Queries.Users;
 using TimeLogs.Services.Profiles;
 using TimeLogs.Services.Services.Users;
 
@@ -11,6 +12,7 @@ public class ServiceSettings
     {
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IUserCommands, UserCommands>();
+        builder.Services.AddScoped<IUserQueries, UserQueries>();
 
         var mapperConfig = new MapperConfiguration(config =>
         {

@@ -26,4 +26,11 @@ public class UsersController : ControllerBase
 
         return Created("api/[controller]", createUserRequest);
     }
+
+    [HttpGet]
+    public ActionResult<ReadUserModel> GetUsers()
+    {
+        var users = this.userService.GetUsers();
+        return Ok(users);
+    }
 }
