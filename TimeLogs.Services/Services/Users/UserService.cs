@@ -38,39 +38,25 @@ public class UserService : IUserService
 
     private IEnumerable<ReadUserModel> MapUsers(IEnumerable<User> users)
     {
-        var mappedUsers = new List<ReadUserModel>();
-
-        foreach (var user in users)
+        var mappedUsers = users.Select(user => new ReadUserModel
         {
-            var mappedUser = new ReadUserModel
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            TimeLogs = user.TimeLogs.Select(timeLog => new ReadTimeLogModel
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                TimeLogs = new List<ReadTimeLogModel>()
-            };
-
-            foreach (var timeLog in user.TimeLogs)
-            {
-                var mappedTimeLog = new ReadTimeLogModel
+                Id = timeLog.Id,
+                LogDate = timeLog.LogDate,
+                HoursWorked = timeLog.HoursWorked,
+                Project = new ReadProjectModel
                 {
-                    Id = timeLog.Id,
-                    LogDate = timeLog.LogDate,
-                    HoursWorked = timeLog.HoursWorked,
-                    Project = new ReadProjectModel
-                    {
-                        Id = timeLog.Project.Id,
-                        Name = timeLog.Project.Name
-                    }
-                };
+                    Id = timeLog.Project.Id,
+                    Name = timeLog.Project.Name
+                }
+            }).ToList()
+        }).ToList();
 
-                mappedUser.TimeLogs.Add(mappedTimeLog);
-            }
-
-            mappedUsers.Add(mappedUser);
-        }
-
-        return mappedUsers.ToList();
+        return mappedUsers;
     }
 }

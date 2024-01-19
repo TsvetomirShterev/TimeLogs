@@ -34,29 +34,28 @@ public static class DataSeeder
         var lastNames = new[] { "Johnson", "Lamas", "Jackson", "Brown", "Mason", "Rodriguez", "Roberts", "Thomas", "Rose", "McDonalds" };
         var domains = new[] { "hotmail.com", "gmail.com", "live.com" };
 
-        var users = new List<User>();
-
-        for (int i = 0; i < 100; i++)
-        {
-            var firstName = firstNames[random.Next(firstNames.Length)];
-            var lastName = lastNames[random.Next(lastNames.Length)];
-            var domain = domains[random.Next(domains.Length)];
-
-            var email = $"{firstName.ToLower()}.{lastName.ToLower()}@{domain}";
-
-            var user = new User
+        var users = Enumerable.Range(0, 100)
+            .Select(u =>
             {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email
-            };
+                var firstName = firstNames[random.Next(firstNames.Length)];
+                var lastName = lastNames[random.Next(lastNames.Length)];
+                var domain = domains[random.Next(domains.Length)];
 
-            users.Add(user);
-        }
+                var email = $"{firstName.ToLower()}.{lastName.ToLower()}@{domain}";
+
+                return new User
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email
+                };
+            })
+            .ToList();
 
         timeLogsDbContext.Users.AddRange(users);
         timeLogsDbContext.SaveChanges();
     }
+
 
     private static void SeedProjectsTable(TimeLogsDbContext timeLogsDbContext)
     {
@@ -78,27 +77,17 @@ public static class DataSeeder
         var users = timeLogsDbContext.Users.ToList();
         var projects = timeLogsDbContext.Projects.ToList();
 
-        foreach (var user in users)
-        {
-            var numberOfEntries = random.Next(1, 21);
+        var timeLogs = users.SelectMany(user =>
+            Enumerable.Range(0, random.Next(1, 21))
+                      .Select(_ => new TimeLog
+                      {
+                          UserId = user.Id,
+                          ProjectId = projects[random.Next(projects.Count)].Id,
+                          LogDate = DateTime.Now.AddDays(-random.Next(1, 365)),
+                          HoursWorked = (float)(random.NextDouble() * (8.00 - 0.25) + 0.25)
+                      }));
 
-            for (int i = 0; i < numberOfEntries; i++)
-            {
-                var project = projects[random.Next(projects.Count)];
-                var hoursWorked = (float)(random.NextDouble() * (8.00 - 0.25) + 0.25);
-
-                var timeLog = new TimeLog
-                {
-                    UserId = user.Id,
-                    ProjectId = project.Id,
-                    LogDate = DateTime.Now.AddDays(-random.Next(1, 365)),
-                    HoursWorked = hoursWorked
-                };
-
-                timeLogsDbContext.TimeLogs.Add(timeLog);
-            }
-        }
-
+        timeLogsDbContext.TimeLogs.AddRange(timeLogs);
         timeLogsDbContext.SaveChanges();
     }
 }
