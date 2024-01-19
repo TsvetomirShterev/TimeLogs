@@ -37,6 +37,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+DbMigratior.MigrateDatabase(connectionString);
+
 app.InitializeDatabase();
 
 app.Run();

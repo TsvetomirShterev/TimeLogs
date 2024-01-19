@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TimeLogs.DB.Entities;
 using TimeLogs.Services.Dto.Projects;
 
 namespace TimeLogs.Services.Dto.TimeLogs;
