@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TimeLogs.DB.Entities;
+using TimeLogs.Services.Dto.TimeLogs;
 
 namespace TimeLogs.Services.Dto.Users;
 
@@ -16,5 +17,5 @@ public class ReadUserModel
     [Required]
     public string Email { get; set; }
 
-    public ICollection<TimeLog> TimeLogs { get; set; } = new HashSet<TimeLog>();
+    public ICollection<ReadTimeLogModel> TimeLogs { get; set; } = new HashSet<ReadTimeLogModel>();
 }

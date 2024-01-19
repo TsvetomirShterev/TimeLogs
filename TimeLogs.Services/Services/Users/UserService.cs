@@ -2,6 +2,8 @@
 using TimeLogs.DB.Commands.Users;
 using TimeLogs.DB.Entities;
 using TimeLogs.DB.Queries.Users;
+using TimeLogs.Services.Dto.Projects;
+using TimeLogs.Services.Dto.TimeLogs;
 using TimeLogs.Services.Dto.Users;
 
 namespace TimeLogs.Services.Services.Users;
@@ -27,8 +29,48 @@ public class UserService : IUserService
 
     public IEnumerable<ReadUserModel> GetUsers()
     {
-        var users = this.usersQueries.GetUsers();
+        var usersFromDB = this.usersQueries.GetUsers();
 
-        return mapper.Map<IEnumerable<User>, List<ReadUserModel>>(users);
+        var users = this.MapUsers(usersFromDB);
+
+        return users;
+    }
+
+    private IEnumerable<ReadUserModel> MapUsers(IEnumerable<User> users)
+    {
+        var mappedUsers = new List<ReadUserModel>();
+
+        foreach (var user in users)
+        {
+            var mappedUser = new ReadUserModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                TimeLogs = new List<ReadTimeLogModel>()
+            };
+
+            foreach (var timeLog in user.TimeLogs)
+            {
+                var mappedTimeLog = new ReadTimeLogModel
+                {
+                    Id = timeLog.Id,
+                    LogDate = timeLog.LogDate,
+                    HoursWorked = timeLog.HoursWorked,
+                    Project = new ReadProjectModel
+                    {
+                        Id = timeLog.Project.Id,
+                        Name = timeLog.Project.Name
+                    }
+                };
+
+                mappedUser.TimeLogs.Add(mappedTimeLog);
+            }
+
+            mappedUsers.Add(mappedUser);
+        }
+
+        return mappedUsers.ToList();
     }
 }

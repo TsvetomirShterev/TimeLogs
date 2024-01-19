@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Text.Json;
 using TimeLogs.DB.Commands.Projects;
 using TimeLogs.DB.Commands.Users;
 using TimeLogs.DB.Queries.Users;
@@ -8,9 +9,9 @@ using TimeLogs.Services.Services.Users;
 
 namespace TimeLogs.API.Infrastructure;
 
-public class ServiceSettings
+public static class ServiceSettings
 {
-    public static void BuildServices(WebApplicationBuilder builder)
+    public static void BuildServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IUserCommands, UserCommands>();
