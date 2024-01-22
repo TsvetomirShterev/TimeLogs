@@ -39,11 +39,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection()
+    .UseRouting()
+    .UseCors("allow origin");
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoint =>
+{
+    endpoint.MapControllers();
+});
 
 DbMigratior.MigrateDatabase(connectionString);
 
