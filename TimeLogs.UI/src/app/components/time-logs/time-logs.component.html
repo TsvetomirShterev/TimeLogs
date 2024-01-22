@@ -12,13 +12,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let log of timeLogs">
-          <td>{{ log.firstName }} {{ log.lastName }}</td>
-          <td>{{ log.email }}</td>
-          <td>{{ log.timeLogs[0]?.project.name }}</td>
-          <td>{{ log.timeLogs[0]?.logDate}}</td>
-          <td>{{ log.timeLogs[0]?.hoursWorked }}</td>
-        </tr>
+        <ng-container *ngFor="let user of users">
+          <tr *ngFor="let log of user.timeLogs">
+            <td>{{ user.firstName }} {{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ log.project.name }}</td>
+            <td>{{ log.logDate | date: 'short' }}</td>
+            <td>{{ log.hoursWorked }}</td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>

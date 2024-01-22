@@ -1,9 +1,17 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TimeLogs.API.Infrastructure;
 using TimeLogs.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddCors(options => options.AddPolicy("allow origin", builder =>
+    {
+        builder
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    }));
 
 ServiceSettings.BuildServices(builder);
 

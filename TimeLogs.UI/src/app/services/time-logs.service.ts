@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { user } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,9 @@ export class TimeLogsService {
   private apiUrl = environment.baseUrl;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {}
 
-  }
-
-  getUsers(): Observable<any[]> {
-    return this.http.get<any[]>('${apiUrl}/Users');
+  getUsers(): Observable<user[]> {
+    return this.httpClient.get<user[]>(`${this.apiUrl}/Users`);
   }
 }
