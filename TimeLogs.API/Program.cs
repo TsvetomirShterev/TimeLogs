@@ -43,8 +43,6 @@ app.UseHttpsRedirection()
     .UseRouting()
     .UseCors("allow origin");
 
-//app.UseAuthorization();
-
 app.UseEndpoints(endpoint =>
 {
     endpoint.MapControllers();

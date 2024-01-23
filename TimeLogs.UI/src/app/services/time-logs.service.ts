@@ -10,10 +10,9 @@ import { user } from '../models/user';
 export class TimeLogsService {
   private apiUrl = environment.baseUrl;
 
-
   constructor(private httpClient: HttpClient) {}
 
-  getUsers(): Observable<user[]> {
-    return this.httpClient.get<user[]>(`${this.apiUrl}/Users`);
+  getUsers(queryParams: string): Observable<user[]> {
+    return this.httpClient.get<user[]>(`${this.apiUrl}/Users${queryParams}`);
   }
 }

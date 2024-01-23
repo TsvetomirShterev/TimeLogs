@@ -27,11 +27,13 @@ public class UserService : IUserService
         return this.userCommands.CreateUser(user);
     }
 
-    public IEnumerable<ReadUserModel> GetUsers()
+    public IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage)
     {
         var usersFromDB = this.usersQueries.GetUsers();
 
-        var users = this.MapUsers(usersFromDB);
+        var users = this.MapUsers(usersFromDB)
+            .Skip((page - 1) * itemsPerPage)
+            .Take(itemsPerPage);
 
         return users;
     }

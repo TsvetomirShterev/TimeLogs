@@ -16,6 +16,8 @@ public class UserQueries : IUserQueries
         var users = dbContext.Users
             .Include(user => user.TimeLogs)
                 .ThenInclude(timeLog => timeLog.Project)
+            .OrderBy(user => user.FirstName)
+            .ThenBy(user => user.LastName)
             .ToList();
 
         return users;

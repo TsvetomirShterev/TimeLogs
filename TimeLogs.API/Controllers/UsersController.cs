@@ -28,9 +28,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<ReadUserModel> GetUsers()
+    public ActionResult<ReadUserModel> GetUsers([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10)
     {
-        var users = this.userService.GetUsers();
+        var users = this.userService.GetUsers(page, itemsPerPage);
         return Ok(users);
     }
 }

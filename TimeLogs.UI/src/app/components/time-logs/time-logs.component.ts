@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class TimeLogsComponent implements OnInit {
   public users: user[] = [];
+  public currentPage = 1;
+  public itemsPerPage = 10;
 
   constructor(private timeLogsService: TimeLogsService, private router: Router) {}
 
@@ -18,7 +20,11 @@ export class TimeLogsComponent implements OnInit {
   }
 
   getUsers() {
-    this.timeLogsService.getUsers().subscribe({
+    let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
+
+    this.timeLogsService
+    .getUsers(queryParams)
+    .subscribe({
       next: (res: any) => {
         if (res) {
           this.users = res;
