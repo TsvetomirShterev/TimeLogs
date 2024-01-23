@@ -1,5 +1,5 @@
-<div style="display: flex; width: 100%">
-  <div style="width: 50%">
+<div class="page" style="display: flex; width: 100%">
+  <div class="page_content" style="width: 50%">
     <table>
       <thead>
         <tr>
@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let user of users">
+        <ng-container *ngFor="let user of users | paginate :{itemsPerPage: itemsPerPage, currentPage: currentPage}">
           <tr *ngFor="let timeLog of user.timeLogs">
             <td>{{ user.firstName }} {{ user.lastName }}</td>
             <td>{{ user.email }}</td>
