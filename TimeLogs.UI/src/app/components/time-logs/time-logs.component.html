@@ -14,21 +14,9 @@
         <tr *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: usersCount }">
           <td>{{ user.firstName }} {{ user.lastName }}</td>
           <td>{{ user.email }}</td>
-          <td>
-            <div *ngFor="let timeLog of user.timeLogs">
-              {{ timeLog.project.name }}
-            </div>
-          </td>
-          <td>
-            <div *ngFor="let timeLog of user.timeLogs">
-              {{ timeLog.logDate | date: 'short' }}
-            </div>
-          </td>
-          <td>
-            <div *ngFor="let timeLog of user.timeLogs">
-              {{ timeLog.hoursWorked }}
-            </div>
-          </td>
+          <td>{{ user.timeLogs[0]?.project?.name }}</td>
+          <td>{{ user.timeLogs[0]?.logDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ user.timeLogs[0]?.hoursWorked }}</td>
         </tr>
       </tbody>
     </table>
