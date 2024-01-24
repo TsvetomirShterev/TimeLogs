@@ -15,4 +15,8 @@ export class TimeLogsService {
   getUsers(queryParams: string): Observable<user[]> {
     return this.httpClient.get<user[]>(`${this.apiUrl}/Users${queryParams}`);
   }
+
+  getUsersCount(){
+    return this.httpClient.get<number>(`${this.apiUrl}/Users/Count`);
+  }
 }

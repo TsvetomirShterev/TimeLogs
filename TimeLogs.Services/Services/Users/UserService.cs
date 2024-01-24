@@ -29,13 +29,23 @@ public class UserService : IUserService
 
     public IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage)
     {
-        var usersFromDB = this.usersQueries.GetUsers();
+        var usersFromDB = this.usersQueries
+            .GetUsers();
 
         var users = this.MapUsers(usersFromDB)
             .Skip((page - 1) * itemsPerPage)
             .Take(itemsPerPage);
 
         return users;
+    }
+
+    public int GetUsersCount()
+    {
+        var usersCount = this.usersQueries
+            .GetUsers()
+            .Count();
+
+        return usersCount;
     }
 
     private IEnumerable<ReadUserModel> MapUsers(IEnumerable<User> users)

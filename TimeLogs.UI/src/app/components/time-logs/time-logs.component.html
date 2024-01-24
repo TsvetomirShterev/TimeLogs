@@ -11,19 +11,30 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let user of users | paginate :{itemsPerPage: itemsPerPage, currentPage: currentPage}">
-          <tr *ngFor="let timeLog of user.timeLogs">
-            <td>{{ user.firstName }} {{ user.lastName }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ timeLog.project.name }}</td>
-            <td>{{ timeLog.logDate | date: 'short' }}</td>
-            <td>{{ timeLog.hoursWorked }}</td>
-          </tr>
-        </ng-container>
+        <tr
+          *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: usersCount }">
+          <td>{{ user.firstName }} {{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <div *ngFor="let timeLog of user.timeLogs">
+              {{ timeLog.project.name }}
+            </div>
+          </td>
+          <td>
+            <div *ngFor="let timeLog of user.timeLogs">
+              {{ timeLog.logDate | date: 'short' }}
+            </div>
+          </td>
+          <td>
+            <div *ngFor="let timeLog of user.timeLogs">
+              {{ timeLog.hoursWorked }}
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div *ngIf="users.length" class="pagination-controls-wrapper">
-      <pagination-controls (pageChange)="currentPage=$event; getUsers()"></pagination-controls>
-  </div>
+      <pagination-controls (pageChange)="currentPage=$event; updatePage()"></pagination-controls>
+    </div>
   </div>
 </div>

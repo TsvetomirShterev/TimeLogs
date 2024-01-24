@@ -33,4 +33,11 @@ public class UsersController : ControllerBase
         var users = this.userService.GetUsers(page, itemsPerPage);
         return Ok(users);
     }
+
+    [HttpGet("Count")]
+    public ActionResult<int> GetUsersCount()
+    {
+        var userCount = this.userService.GetUsersCount();
+        return Ok(userCount);
+    }
 }

@@ -7,5 +7,7 @@ public interface IUserService
 {
     User CreateUser(CreateUserModel createUserModel);
 
+    int GetUsersCount();
+
     IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage);
 }
