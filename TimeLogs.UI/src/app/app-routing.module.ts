@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { TimeLogsComponent } from './components/time-logs/time-logs.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'time-logs'
-  // },
+  {
+    path: '',
+    redirectTo: 'time-logs',
+    pathMatch: 'full'
+  },
   {
     path: 'time-logs',
     component: TimeLogsComponent
