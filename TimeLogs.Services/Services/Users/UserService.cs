@@ -27,6 +27,15 @@ public class UserService : IUserService
         return this.userCommands.CreateUser(user);
     }
 
+    public IEnumerable<ReadUserModel> GetSortedUsers(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
+    {
+        var sortedUsersFromDb = this.usersQueries.GetSortedUsers(page, itemsPerPage, fromDate, toDate);
+
+        var sortedUsers = this.MapUsers(sortedUsersFromDb);
+
+        return sortedUsers;
+    }
+
     public IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage)
     {
         var usersFromDB = this.usersQueries

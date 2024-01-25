@@ -31,6 +31,7 @@ public class UsersController : ControllerBase
     public ActionResult<ReadUserModel> GetUsers([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10)
     {
         var users = this.userService.GetUsers(page, itemsPerPage);
+
         return Ok(users);
     }
 
@@ -38,6 +39,15 @@ public class UsersController : ControllerBase
     public ActionResult<int> GetUsersCount()
     {
         var userCount = this.userService.GetUsersCount();
+
         return Ok(userCount);
+    }
+
+    [HttpGet("Sorted")]
+    public ActionResult<ReadUserModel> GetSortedUsers([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10, [FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
+    {
+        var sortedUsers = this.userService.GetSortedUsers(page, itemsPerPage, fromDate, toDate);
+
+        return Ok(sortedUsers);
     }
 }

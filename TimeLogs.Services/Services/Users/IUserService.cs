@@ -10,4 +10,6 @@ public interface IUserService
     int GetUsersCount();
 
     IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage);
+
+    IEnumerable<ReadUserModel> GetSortedUsers(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null);
 }

@@ -11,14 +11,42 @@ public class UserQueries : IUserQueries
         this.dbContext = dbContext;
     }
 
-    public IEnumerable<User> GetUsers()
+    public IEnumerable<User> GetSortedUsers(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
     {
-        var users = dbContext.Users
+        var query = this.dbContext.Users
             .Include(user => user.TimeLogs)
                 .ThenInclude(timeLog => timeLog.Project)
             .OrderBy(user => user.FirstName)
             .ThenBy(user => user.LastName)
-            .ToList();
+            .AsQueryable();
+
+        if (fromDate.HasValue)
+        {
+            query = query.Where(user => user.TimeLogs.Any(timeLog => timeLog.LogDate >= fromDate.Value));
+        }
+
+        if (toDate.HasValue)
+        {
+            query = query.Where(user => user.TimeLogs.Any(timeLog => timeLog.LogDate <= toDate.Value));
+        }
+
+        var sortedUsers = query
+            .Skip((page - 1) * itemsPerPage)
+            .Take(itemsPerPage)
+            .ToArray();
+
+        return sortedUsers;
+    }
+
+
+    public IEnumerable<User> GetUsers()
+    {
+        var users = this.dbContext.Users
+            .Include(user => user.TimeLogs)
+                .ThenInclude(timeLog => timeLog.Project)
+            .OrderBy(user => user.FirstName)
+            .ThenBy(user => user.LastName)
+            .ToArray();
 
         return users;
     }
