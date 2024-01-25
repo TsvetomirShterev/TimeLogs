@@ -20,23 +20,35 @@ public class UserQueries : IUserQueries
             .ThenBy(user => user.LastName)
             .AsQueryable();
 
-        if (fromDate.HasValue)
+        if (fromDate.HasValue || toDate.HasValue)
         {
-            query = query.Where(user => user.TimeLogs.Any(timeLog => timeLog.LogDate >= fromDate.Value));
-        }
-
-        if (toDate.HasValue)
-        {
-            query = query.Where(user => user.TimeLogs.Any(timeLog => timeLog.LogDate <= toDate.Value));
+            query = query.Where(user =>
+                user.TimeLogs.Any(timeLog =>
+                    (!fromDate.HasValue || timeLog.LogDate >= fromDate.Value) &&
+                    (!toDate.HasValue || timeLog.LogDate <= toDate.Value)
+                )
+            );
         }
 
         var sortedUsers = query
+            .Select(user => new User
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                TimeLogs = user.TimeLogs.Where(timeLog =>
+                    (!fromDate.HasValue || timeLog.LogDate >= fromDate.Value) &&
+                    (!toDate.HasValue || timeLog.LogDate <= toDate.Value)
+                ).ToList()
+            })
             .Skip((page - 1) * itemsPerPage)
             .Take(itemsPerPage)
             .ToArray();
 
         return sortedUsers;
     }
+
 
 
     public IEnumerable<User> GetUsers()
