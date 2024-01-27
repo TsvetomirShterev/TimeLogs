@@ -7,7 +7,7 @@
       <label for="toDate">To Date:</label>
       <input type="date" id="toDate" [(ngModel)]="toDate">
 
-      <button (click)="updatePage()">Apply Filter</button>
+      <button (click)="updatePage()">Apply Filters</button>
     </div>
 
     <table>
@@ -23,15 +23,15 @@
       <tbody>
         <tr
           *ngFor="let timeLog of timeLogs | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: timeLogsCount }">
-          <td>{{ timeLog.user.firstName }} {{ timeLog.user.lastName }}</td>
-          <td>{{ timeLog.user.email }}</td>
-          <td>{{ timeLog.project.name }}</td>
-          <td>{{ timeLog.logDate | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ timeLog.hoursWorked }}</td>
+          <td>{{ timeLog.user }} {{  timeLog.user.lastName }}</td>
+          <td>{{  timeLog.user.email }}</td>
+          <td>{{  timeLog.project.name }}</td>
+          <td>{{  timeLog.logDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{  timeLog.hoursWorked }}</td>
         </tr>
       </tbody>
     </table>
-    <div *ngIf="users.length" class="pagination-controls-wrapper">
+    <div *ngIf="timeLogs.length" class="pagination-controls-wrapper">
       <pagination-controls (pageChange)="currentPage=$event; updatePage();"></pagination-controls>
     </div>
   </div>
