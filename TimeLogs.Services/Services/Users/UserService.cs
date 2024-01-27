@@ -27,9 +27,9 @@ public class UserService : IUserService
         return this.userCommands.CreateUser(user);
     }
 
-    public IEnumerable<ReadUserModel> GetSortedUsers(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
+    public IEnumerable<ReadUserModel> GetSortedUsersBetweenDates(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
     {
-        var sortedUsersFromDb = this.usersQueries.GetSortedUsers(page, itemsPerPage, fromDate, toDate);
+        var sortedUsersFromDb = this.usersQueries.GetSortedUsersBetweenDates(page, itemsPerPage, fromDate, toDate);
 
         var sortedUsers = this.MapUsers(sortedUsersFromDb);
 
@@ -48,11 +48,10 @@ public class UserService : IUserService
         return users;
     }
 
-    public int GetUsersCount()
+    public int GetUsersCount(DateTime? fromDate = null, DateTime? toDate = null)
     {
         var usersCount = this.usersQueries
-            .GetUsers()
-            .Count();
+            .GetUsersCount(fromDate, toDate);
 
         return usersCount;
     }

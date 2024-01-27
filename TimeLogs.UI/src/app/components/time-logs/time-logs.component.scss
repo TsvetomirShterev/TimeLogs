@@ -1,3 +1,5 @@
+/* time-logs.component.scss */
+
 .page {
   display: flex;
   width: 100%;
@@ -5,23 +7,53 @@
 
 .page_content {
   width: 50%;
-}
+  margin: 20px;
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
 
-th {
-  background-color: #f2f2f2;
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+  }
+
+  label {
+    margin-right: 10px;
+  }
+
+  input {
+    margin-right: 20px;
+  }
+
+  button {
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
 }
 
 .pagination-controls-wrapper {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }

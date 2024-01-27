@@ -36,17 +36,17 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("Count")]
-    public ActionResult<int> GetUsersCount()
+    public ActionResult<int> GetUsersCount([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
     {
-        var userCount = this.userService.GetUsersCount();
+        var userCount = this.userService.GetUsersCount(fromDate, toDate);
 
         return Ok(userCount);
     }
 
-    [HttpGet("Sorted")]
-    public ActionResult<ReadUserModel> GetSortedUsers([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10, [FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
+    [HttpGet("BetweenDates")]
+    public ActionResult<ReadUserModel> GetUsersBetweenDates([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10, [FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
     {
-        var sortedUsers = this.userService.GetSortedUsers(page, itemsPerPage, fromDate, toDate);
+        var sortedUsers = this.userService.GetSortedUsersBetweenDates(page, itemsPerPage, fromDate, toDate);
 
         return Ok(sortedUsers);
     }

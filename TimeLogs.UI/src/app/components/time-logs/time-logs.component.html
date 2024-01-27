@@ -1,5 +1,15 @@
 <div class="page">
   <div class="page_content">
+    <div>
+      <label for="fromDate">From Date:</label>
+      <input type="date" id="fromDate" [(ngModel)]="fromDate">
+
+      <label for="toDate">To Date:</label>
+      <input type="date" id="toDate" [(ngModel)]="toDate">
+
+      <button (click)="updatePage()">Apply Filters</button>
+    </div>
+
     <table>
       <thead>
         <tr>
@@ -11,7 +21,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: usersCount }">
+        <tr
+          *ngFor="let user of users | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: usersCount }">
           <td>{{ user.firstName }} {{ user.lastName }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.timeLogs[0]?.project?.name }}</td>
@@ -21,7 +32,7 @@
       </tbody>
     </table>
     <div *ngIf="users.length" class="pagination-controls-wrapper">
-      <pagination-controls (pageChange)="currentPage=$event; updatePage()"></pagination-controls>
+      <pagination-controls (pageChange)="currentPage=$event; updatePage();"></pagination-controls>
     </div>
   </div>
 </div>

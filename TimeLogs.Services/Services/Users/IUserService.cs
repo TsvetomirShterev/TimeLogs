@@ -7,9 +7,9 @@ public interface IUserService
 {
     User CreateUser(CreateUserModel createUserModel);
 
-    int GetUsersCount();
+    int GetUsersCount(DateTime? fromDate = null, DateTime? toDate = null);
 
     IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage);
 
-    IEnumerable<ReadUserModel> GetSortedUsers(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null);
+    IEnumerable<ReadUserModel> GetSortedUsersBetweenDates(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null);
 }

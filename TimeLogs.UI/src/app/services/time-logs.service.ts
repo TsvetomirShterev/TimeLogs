@@ -10,13 +10,17 @@ import { user } from '../models/user';
 export class TimeLogsService {
   private apiUrl = environment.baseUrl;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   getUsers(queryParams: string): Observable<user[]> {
     return this.httpClient.get<user[]>(`${this.apiUrl}/Users${queryParams}`);
   }
 
-  getUsersCount(){
-    return this.httpClient.get<number>(`${this.apiUrl}/Users/Count`);
+  getUsersCount(queryParams: string) {
+    return this.httpClient.get<number>(`${this.apiUrl}/Users/Count${queryParams}`);
+  }
+
+  getSortedUsers(queryParams: string): Observable<user[]> {
+    return this.httpClient.get<user[]>(`${this.apiUrl}/Users/BetweenDates${queryParams}`);
   }
 }

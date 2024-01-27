@@ -12,8 +12,11 @@ export class TimeLogsComponent implements OnInit {
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
   public usersCount: number = 0;
+  public fromDate: string = '';
+  public toDate: string = '';
+  public sortedByDate: boolean = false;
 
-  constructor(private timeLogsService: TimeLogsService) {}
+  constructor(private timeLogsService: TimeLogsService) { }
 
   ngOnInit(): void {
     this.updatePage();
@@ -22,39 +25,71 @@ export class TimeLogsComponent implements OnInit {
   getUsers() {
     let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
 
-    this.timeLogsService
-    .getUsers(queryParams)
-    .subscribe({
-      next: (res: any) => {
-        if (res) {
-          this.users = res;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching users:', err);
-      },
-      complete: () => {}
-    });
+    if (!this.sortedByDate) {
+      this.timeLogsService
+        .getUsers(queryParams)
+        .subscribe({
+          next: (res: any) => {
+            if (res) {
+              this.users = res;
+            }
+          },
+          error: (err) => {
+            console.error('Error fetching users:', err);
+          }
+        });
+    } else {
+      this.getSortedUsers();
+    }
   }
 
   getUsersCount() {
+    let queryParams = `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
+
     this.timeLogsService
-    .getUsersCount()
-    .subscribe({
+      .getUsersCount(queryParams)
+      .subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.usersCount = res;
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching users:', err);
+        },
+        complete: () => { }
+      });
+  }
+
+  getSortedUsers() {
+    let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
+
+    if (this.fromDate && this.toDate) {
+      queryParams += `&fromDate=${this.fromDate}&toDate=${this.toDate}`;
+    }
+
+    this.timeLogsService.getSortedUsers(queryParams).subscribe({
       next: (res: any) => {
         if (res) {
-          this.usersCount = res;
+          this.users = res;
+          this.usersCount = res.totalUsers;
         }
       },
       error: (err) => {
-        console.error('Error fetching users:', err);
-      },
-      complete: () => {}
+        console.error('Error fetching sorted users:', err);
+      }
     });
   }
 
-  public updatePage(){
-    this.getUsers();
-    this.getUsersCount();
+  public updatePage() {
+    if (!this.sortedByDate) {
+      console.log('not sorted')
+      this.getUsers();
+      this.getUsersCount();
+      this.sortedByDate = true;
+    } else {
+      console.log('sorted')
+      this.getSortedUsers();
+    }
   }
 }
