@@ -19,8 +19,4 @@ export class TimeLogsService {
   getUsersCount(queryParams: string) {
     return this.httpClient.get<number>(`${this.apiUrl}/Users/Count${queryParams}`);
   }
-
-  getSortedUsers(queryParams: string): Observable<user[]> {
-    return this.httpClient.get<user[]>(`${this.apiUrl}/Users/BetweenDates${queryParams}`);
-  }
 }

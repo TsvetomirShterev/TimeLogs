@@ -25,22 +25,22 @@ export class TimeLogsComponent implements OnInit {
   getUsers() {
     let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
 
-    if (!this.sortedByDate) {
-      this.timeLogsService
-        .getUsers(queryParams)
-        .subscribe({
-          next: (res: any) => {
-            if (res) {
-              this.users = res;
-            }
-          },
-          error: (err) => {
-            console.error('Error fetching users:', err);
-          }
-        });
-    } else {
-      this.getSortedUsers();
+    if (this.fromDate && this.toDate) {
+      queryParams += `&fromDate=${this.fromDate}&toDate=${this.toDate}`;
     }
+
+    this.timeLogsService
+      .getUsers(queryParams)
+      .subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.users = res;
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching users:', err);
+        }
+      });
   }
 
   getUsersCount() {
@@ -52,6 +52,7 @@ export class TimeLogsComponent implements OnInit {
         next: (res: any) => {
           if (res) {
             this.usersCount = res;
+            console.log(`this is how many we have: ${this.usersCount}`);
           }
         },
         error: (err) => {
@@ -61,35 +62,8 @@ export class TimeLogsComponent implements OnInit {
       });
   }
 
-  getSortedUsers() {
-    let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
-
-    if (this.fromDate && this.toDate) {
-      queryParams += `&fromDate=${this.fromDate}&toDate=${this.toDate}`;
-    }
-
-    this.timeLogsService.getSortedUsers(queryParams).subscribe({
-      next: (res: any) => {
-        if (res) {
-          this.users = res;
-          this.usersCount = res.totalUsers;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching sorted users:', err);
-      }
-    });
-  }
-
   public updatePage() {
-    if (!this.sortedByDate) {
-      console.log('not sorted')
-      this.getUsers();
-      this.getUsersCount();
-      this.sortedByDate = true;
-    } else {
-      console.log('sorted')
-      this.getSortedUsers();
-    }
+    this.getUsers();
+    this.getUsersCount();
   }
 }

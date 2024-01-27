@@ -19,11 +19,12 @@ public class UserQueries : IUserQueries
 
         query = AddDateIfValuePresent(fromDate, toDate, query);
 
-        return query.Count();
+        var userCount = query.Count();
+
+        return userCount;
     }
 
-    
-    public IEnumerable<User> GetSortedUsersBetweenDates(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
+    public IEnumerable<User> GetUsers(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
     {
         var query = this.dbContext.Users
             .Include(user => user.TimeLogs)
@@ -31,17 +32,9 @@ public class UserQueries : IUserQueries
             .OrderBy(user => user.TimeLogs.Min(timeLog => timeLog.LogDate))
             .AsQueryable();
 
-        if (fromDate.HasValue || toDate.HasValue)
-        {
-            query = query.Where(user =>
-                user.TimeLogs.Any(timeLog =>
-                    (!fromDate.HasValue || timeLog.LogDate >= fromDate.Value) &&
-                    (!toDate.HasValue || timeLog.LogDate <= toDate.Value)
-                )
-            );
-        }
+        query = AddDateIfValuePresent(fromDate, toDate, query);
 
-        var sortedUsers = query
+        var users = query
             .Select(user => new User
             {
                 Id = user.Id,
@@ -56,20 +49,6 @@ public class UserQueries : IUserQueries
             })
             .Skip((page - 1) * itemsPerPage)
             .Take(itemsPerPage)
-            .ToArray();
-
-        return sortedUsers;
-    }
-
-
-
-    public IEnumerable<User> GetUsers()
-    {
-        var users = this.dbContext.Users
-            .Include(user => user.TimeLogs)
-                .ThenInclude(timeLog => timeLog.Project)
-            .OrderBy(user => user.FirstName)
-            .ThenBy(user => user.LastName)
             .ToArray();
 
         return users;
@@ -89,5 +68,4 @@ public class UserQueries : IUserQueries
 
         return query;
     }
-
 }

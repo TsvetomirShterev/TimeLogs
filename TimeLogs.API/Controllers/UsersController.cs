@@ -26,11 +26,11 @@ public class UsersController : ControllerBase
 
         return Created("api/[controller]", createUserRequest);
     }
-
+    
     [HttpGet]
-    public ActionResult<ReadUserModel> GetUsers([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10)
+    public ActionResult<ReadUserModel> GetUsers([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10, [FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
     {
-        var users = this.userService.GetUsers(page, itemsPerPage);
+        var users = this.userService.GetUsers(page, itemsPerPage, fromDate, toDate);
 
         return Ok(users);
     }
@@ -41,13 +41,5 @@ public class UsersController : ControllerBase
         var userCount = this.userService.GetUsersCount(fromDate, toDate);
 
         return Ok(userCount);
-    }
-
-    [HttpGet("BetweenDates")]
-    public ActionResult<ReadUserModel> GetUsersBetweenDates([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10, [FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
-    {
-        var sortedUsers = this.userService.GetSortedUsersBetweenDates(page, itemsPerPage, fromDate, toDate);
-
-        return Ok(sortedUsers);
     }
 }

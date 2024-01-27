@@ -27,23 +27,12 @@ public class UserService : IUserService
         return this.userCommands.CreateUser(user);
     }
 
-    public IEnumerable<ReadUserModel> GetSortedUsersBetweenDates(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
-    {
-        var sortedUsersFromDb = this.usersQueries.GetSortedUsersBetweenDates(page, itemsPerPage, fromDate, toDate);
-
-        var sortedUsers = this.MapUsers(sortedUsersFromDb);
-
-        return sortedUsers;
-    }
-
-    public IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage)
+    public IEnumerable<ReadUserModel> GetUsers(int page, int itemsPerPage, DateTime? fromDate = null, DateTime? toDate = null)
     {
         var usersFromDB = this.usersQueries
             .GetUsers();
 
-        var users = this.MapUsers(usersFromDB)
-            .Skip((page - 1) * itemsPerPage)
-            .Take(itemsPerPage);
+        var users = this.MapUsers(usersFromDB);
 
         return users;
     }
