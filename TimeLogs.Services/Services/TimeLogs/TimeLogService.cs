@@ -16,19 +16,19 @@ public class TimeLogService : ITimeLogService
         this.timeLogQueries = timeLogQueries;
     }
 
-    public IEnumerable<ReadTimeLogModel> GetTimeLogs()
+    public IEnumerable<ReadTimeLogModel> GetTimeLogs(int page, int itemsPerPage, DateTime? fromDate = null, DateTime? toDate = null)
     {
         var timeLogsFromDb = this.timeLogQueries
-            .GetTimeLogs();
+            .GetTimeLogs(page, itemsPerPage, fromDate, toDate);
 
         var timeLogs = MapTimeLogs(timeLogsFromDb);
 
         return timeLogs;
     }
 
-    public int GetTimeLogsCount()
+    public int GetTimeLogsCount(DateTime? fromDate = null, DateTime? toDate = null)
     {
-        var timeLogsCount = this.timeLogQueries.GetTimeLogsCount();
+        var timeLogsCount = this.timeLogQueries.GetTimeLogsCount(fromDate, toDate);
 
         return timeLogsCount;
     }

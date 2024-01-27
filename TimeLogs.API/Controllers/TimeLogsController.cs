@@ -16,17 +16,17 @@ namespace TimeLogs.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ReadTimeLogModel> GetTimeLogs()
+        public ActionResult<ReadTimeLogModel> GetTimeLogs([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10, [FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {
-            var timeLogs = this.timeLogsService.GetTimeLogs();
+            var timeLogs = this.timeLogsService.GetTimeLogs(page, itemsPerPage, fromDate, toDate);
 
             return Ok(timeLogs);
         }
 
         [HttpGet("Count")]
-        public ActionResult<int> GetTimeLogsCount()
+        public ActionResult<int> GetTimeLogsCount([FromQuery] DateTime? fromDate = null, [FromQuery] DateTime? toDate = null)
         {
-            var timeLogsCount = this.timeLogsService.GetTimeLogsCount();
+            var timeLogsCount = this.timeLogsService.GetTimeLogsCount(fromDate, toDate);
 
             return Ok(timeLogsCount);
         }

@@ -25,8 +25,14 @@ export class TimeLogsComponent implements OnInit {
   }
 
   getTimeLogs() {
+    let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
+
+    if (this.fromDate && this.toDate) {
+      queryParams += `&fromDate=${this.fromDate}&toDate=${this.toDate}`;
+    }
+
     this.timeLogsService
-      .getTimeLogs()
+      .getTimeLogs(queryParams)
       .subscribe({
         next: (res: any) => {
           if (res) {
@@ -41,8 +47,12 @@ export class TimeLogsComponent implements OnInit {
 
 
   getTimeLogsCount() {
+    let queryParams = ``;
+    if (this.fromDate && this.toDate) {
+      queryParams = `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
+    }
     this.timeLogsService
-      .getTimeLogsCount()
+      .getTimeLogsCount(queryParams)
       .subscribe({
         next: (res: any) => {
           if (res) {

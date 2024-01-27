@@ -13,20 +13,31 @@ public class TimeLogQueries : ITimeLogQueries
         this.dbContext = dbContext;
     }
 
-    public IEnumerable<TimeLog> GetTimeLogs()
+    public IEnumerable<TimeLog> GetTimeLogs(int page = 1, int itemsPerPage = 10, DateTime? fromDate = null, DateTime? toDate = null)
     {
-        var timeLogs = this.dbContext.TimeLogs
+        var query = this.dbContext.TimeLogs
             .Include(timeLog => timeLog.User)
             .Include(timeLog => timeLog.Project)
+            .AsQueryable();
+
+        query = AddDateIfHasValue(fromDate, toDate, query);
+
+        var timeLogs = query
+            .Skip((page - 1) * itemsPerPage)
+            .Take(itemsPerPage)
             .ToArray();
 
         return timeLogs;
     }
 
-    public int GetTimeLogsCount()
+    public int GetTimeLogsCount(DateTime? fromDate = null, DateTime? toDate = null)
     {
-        var timeLogsCount = this.dbContext.TimeLogs
-            .Count();
+        var query = this.dbContext.TimeLogs
+            .AsQueryable();
+
+        query = AddDateIfHasValue(fromDate, toDate, query);
+
+        var timeLogsCount = query.Count();
 
         return timeLogsCount;
     }

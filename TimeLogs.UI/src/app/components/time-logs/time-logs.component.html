@@ -23,11 +23,11 @@
       <tbody>
         <tr
           *ngFor="let timeLog of timeLogs | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: timeLogsCount }">
-          <td>{{ timeLog.user }} {{  timeLog.user.lastName }}</td>
-          <td>{{  timeLog.user.email }}</td>
-          <td>{{  timeLog.project.name }}</td>
-          <td>{{  timeLog.logDate | date: 'dd/MM/yyyy' }}</td>
-          <td>{{  timeLog.hoursWorked }}</td>
+          <td>{{ timeLog.user.firstName }} {{ timeLog.user.lastName }}</td>
+          <td>{{ timeLog.user.email }}</td>
+          <td>{{ timeLog.project.name }}</td>
+          <td>{{ timeLog.logDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ timeLog.hoursWorked }}</td>
         </tr>
       </tbody>
     </table>

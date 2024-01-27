@@ -13,11 +13,11 @@ export class TimeLogsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getTimeLogs(): Observable<timeLog[]> {
-    return this.httpClient.get<timeLog[]>(`${this.apiUrl}/TimeLogs`);
+  getTimeLogs(queryParams: string): Observable<timeLog[]> {
+    return this.httpClient.get<timeLog[]>(`${this.apiUrl}/TimeLogs${queryParams}`);
   }
 
-  getTimeLogsCount() {
-    return this.httpClient.get<number>(`${this.apiUrl}/TimeLogs/Count`);
+  getTimeLogsCount(queryParams: string) {
+    return this.httpClient.get<number>(`${this.apiUrl}/TimeLogs/Count${queryParams}`);
   }
 }
