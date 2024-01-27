@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TimeLogs.Services.Dto.Projects;
+using TimeLogs.Services.Dto.Users;
 
 namespace TimeLogs.Services.Dto.TimeLogs;
 
@@ -15,4 +16,6 @@ public class ReadTimeLogModel
     public float HoursWorked { get; set; }
 
     public ReadProjectModel Project { get; set; }
+
+    public ReadUserModel User { get; set; }
 }

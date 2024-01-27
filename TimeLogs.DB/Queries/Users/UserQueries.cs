@@ -59,7 +59,8 @@ public class UserQueries : IUserQueries
         if (fromDate.HasValue || toDate.HasValue)
         {
             query = query.Where(user =>
-                user.TimeLogs.Any(timeLog =>
+                user.TimeLogs
+                .Any(timeLog =>
                     (!fromDate.HasValue || timeLog.LogDate >= fromDate.Value) &&
                     (!toDate.HasValue || timeLog.LogDate <= toDate.Value)
                 )

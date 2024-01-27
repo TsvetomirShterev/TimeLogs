@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeLogsService } from '../../services/time-logs.service';
 import { user } from '../../models/user';
+import { timeLog } from '../../models/timeLog';
 
 @Component({
   selector: 'app-time-logs',
@@ -8,13 +9,14 @@ import { user } from '../../models/user';
   styleUrls: ['./time-logs.component.scss']
 })
 export class TimeLogsComponent implements OnInit {
+  public timeLogs: timeLog[] = [];
+  public timeLogsCount: number = 0;
   public users: user[] = [];
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
   public usersCount: number = 0;
   public fromDate: string = '';
   public toDate: string = '';
-  public sortedByDate: boolean = false;
 
   constructor(private timeLogsService: TimeLogsService) { }
 
@@ -22,48 +24,39 @@ export class TimeLogsComponent implements OnInit {
     this.updatePage();
   }
 
-  getUsers() {
-    let queryParams = `?page=${this.currentPage}&itemsPerPage=${this.itemsPerPage}`;
-
-    if (this.fromDate && this.toDate) {
-      queryParams += `&fromDate=${this.fromDate}&toDate=${this.toDate}`;
-    }
-
+  getTimeLogs() {
     this.timeLogsService
-      .getUsers(queryParams)
+      .getTimeLogs()
       .subscribe({
         next: (res: any) => {
           if (res) {
-            this.users = res;
+            this.timeLogs = res;
           }
         },
         error: (err) => {
-          console.error('Error fetching users:', err);
+          console.error('Error fetching timeLogs', err);
         }
       });
   }
 
-  getUsersCount() {
-    let queryParams = `?fromDate=${this.fromDate}&toDate=${this.toDate}`;
 
+  getTimeLogsCount() {
     this.timeLogsService
-      .getUsersCount(queryParams)
+      .getTimeLogsCount()
       .subscribe({
         next: (res: any) => {
           if (res) {
-            this.usersCount = res;
-            console.log(`this is how many we have: ${this.usersCount}`);
+            this.timeLogsCount = res;
           }
         },
         error: (err) => {
-          console.error('Error fetching users:', err);
-        },
-        complete: () => { }
+          console.error('Error fetching timeLogs count', err);
+        }
       });
   }
 
   public updatePage() {
-    this.getUsers();
-    this.getUsersCount();
+    this.getTimeLogs();
+    this.getTimeLogsCount();
   }
 }

@@ -47,13 +47,15 @@ public class UserService : IUserService
 
     private IEnumerable<ReadUserModel> MapUsers(IEnumerable<User> users)
     {
-        var mappedUsers = users.Select(user => new ReadUserModel
+        var mappedUsers = users
+        .Select(user => new ReadUserModel
         {
             Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            TimeLogs = user.TimeLogs.Select(timeLog => new ReadTimeLogModel
+            TimeLogs = user.TimeLogs
+            .Select(timeLog => new ReadTimeLogModel
             {
                 Id = timeLog.Id,
                 LogDate = timeLog.LogDate,

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { user } from '../models/user';
+import { timeLog } from '../models/timeLog';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,11 @@ export class TimeLogsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getUsers(queryParams: string): Observable<user[]> {
-    return this.httpClient.get<user[]>(`${this.apiUrl}/Users${queryParams}`);
+  getTimeLogs(): Observable<timeLog[]> {
+    return this.httpClient.get<timeLog[]>(`${this.apiUrl}/TimeLogs`);
   }
 
-  getUsersCount(queryParams: string) {
-    return this.httpClient.get<number>(`${this.apiUrl}/Users/Count${queryParams}`);
+  getTimeLogsCount() {
+    return this.httpClient.get<number>(`${this.apiUrl}/TimeLogs/Count`);
   }
 }
