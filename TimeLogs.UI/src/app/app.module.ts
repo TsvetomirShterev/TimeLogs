@@ -6,11 +6,16 @@ import { AppComponent } from './app.component';
 import { TimeLogsComponent } from './components/time-logs/time-logs.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TopStatisticsComponent } from './components/top-statistics/top-statistics.component';
+// import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimeLogsComponent
+    TimeLogsComponent,
+    DashboardComponent,
+    TopStatisticsComponent
   ],
   imports: [
     BrowserModule,

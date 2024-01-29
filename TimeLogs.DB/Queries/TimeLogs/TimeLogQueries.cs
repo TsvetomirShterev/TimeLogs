@@ -18,6 +18,7 @@ public class TimeLogQueries : ITimeLogQueries
         var query = this.dbContext.TimeLogs
             .Include(timeLog => timeLog.User)
             .Include(timeLog => timeLog.Project)
+            .OrderByDescending(timeLog => timeLog.LogDate)
             .AsQueryable();
 
         query = AddDateIfHasValue(fromDate, toDate, query);
@@ -42,7 +43,7 @@ public class TimeLogQueries : ITimeLogQueries
         return timeLogsCount;
     }
 
-    private static IQueryable<TimeLog> AddDateIfHasValue(DateTime? fromDate, DateTime? toDate, IQueryable<TimeLog> query)
+    private IQueryable<TimeLog> AddDateIfHasValue(DateTime? fromDate, DateTime? toDate, IQueryable<TimeLog> query)
     {
         if (fromDate.HasValue && toDate.HasValue)
         {

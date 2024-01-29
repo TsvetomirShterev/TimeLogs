@@ -1,0 +1,18 @@
+.page_content {
+  display: flex;
+}
+
+.left-half,
+.right-half {
+  width: 50%; /* Each takes up 50% of the page */
+}
+
+.left-half {
+  padding-right: 10px; /* Add space between the halves */
+  box-sizing: border-box;
+}
+
+.right-half {
+  padding-left: 10px; /* Add space between the halves */
+  box-sizing: border-box;
+}
