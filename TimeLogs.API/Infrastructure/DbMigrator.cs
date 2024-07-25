@@ -3,7 +3,7 @@ using TimeLogs.DB;
 
 namespace TimeLogs.API.Infrastructure;
 
-public static class DbMigratior
+public static class DbMigrator
 {
     public static void MigrateDatabase(string connectionString)
     {
