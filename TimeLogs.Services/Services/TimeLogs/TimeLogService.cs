@@ -7,14 +7,9 @@ using TimeLogs.Services.Dto.Users;
 
 namespace TimeLogs.Services.Services.TimeLogs;
 
-public class TimeLogService : ITimeLogService
+public class TimeLogService(ITimeLogQueries timeLogQueries) : ITimeLogService
 {
-    private readonly ITimeLogQueries timeLogQueries;
-
-    public TimeLogService(ITimeLogQueries timeLogQueries)
-    {
-        this.timeLogQueries = timeLogQueries;
-    }
+    private readonly ITimeLogQueries timeLogQueries = timeLogQueries;
 
     public IEnumerable<ReadTimeLogModel> GetTimeLogs(int page, int itemsPerPage, DateTime? fromDate = null, DateTime? toDate = null)
     {
@@ -31,6 +26,15 @@ public class TimeLogService : ITimeLogService
         var timeLogsCount = this.timeLogQueries.GetTimeLogsCount(fromDate, toDate);
 
         return timeLogsCount;
+    }
+
+    public IEnumerable<ReadTimeLogModel> GetTopTimeLogs(int topItems, DateTime? fromDate = null, DateTime? toDate = null)
+    {
+        var topTimeLogFromDb = this.timeLogQueries.GetTopTimeLogs(topItems, fromDate, toDate);
+
+        var topTimeLogs = MapTimeLogs(topTimeLogFromDb);
+
+        return topTimeLogs;
     }
 
     private IEnumerable<ReadTimeLogModel> MapTimeLogs(IEnumerable<TimeLog> timeLogsFromDb)
