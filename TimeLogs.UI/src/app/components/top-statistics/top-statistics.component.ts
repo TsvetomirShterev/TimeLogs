@@ -29,18 +29,24 @@ export class TopStatisticsComponent implements OnInit {
   }
 
   drawChart(): void {
-    const dataArray: any[] = [['User', 'Hours Worked']];
+    console.log('Drawing chart...');
 
+    const dataArray: any[] = [];
+    console.log(dataArray);
     this.timeLogs.forEach((log) => {
-      dataArray.push([log.user, log.hoursWorked]);
+      dataArray.push([log.user.firstName + ' ' + log.user.lastName, log.hoursWorked]);
     });
 
-    const data = google.visualization.arrayToDataTable(dataArray);
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'User');
+    data.addColumn('number', 'Hours Worked');
+    data.addRows(dataArray);
+
 
     const options = {
       title: 'Top 10 Users by Hours Worked',
       bars: 'vertical',
-      height: 400,
+      height: 600,
       legend: { position: 'none' },
     };
 
@@ -55,8 +61,10 @@ export class TopStatisticsComponent implements OnInit {
   }
 
   getTopTimeLogs(): void {
+    console.log('Fetching time logs...');
     this.topStatisticsService.getTopTimeLogs().subscribe({
       next: (res: timeLog[]) => {
+        console.log('Time logs received:', res);
         this.timeLogs = res;
       },
       error: (err) => {

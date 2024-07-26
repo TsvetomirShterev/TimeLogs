@@ -13,6 +13,6 @@ export class TopStatisticsService {
   constructor(private httpClient: HttpClient) { }
 
   getTopTimeLogs(): Observable<timeLog[]> {
-    return this.httpClient.get<timeLog[]>(`${this.apiUrl}/TimeLogs/Top}`);
+    return this.httpClient.get<timeLog[]>(`${this.apiUrl}/TimeLogs/Top`);
   }
 }

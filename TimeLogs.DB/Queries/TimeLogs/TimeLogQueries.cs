@@ -42,7 +42,7 @@ public class TimeLogQueries(TimeLogsDbContext dbContext) : ITimeLogQueries
         var query = this.dbContext.TimeLogs
            .Include(timeLog => timeLog.User)
            .Include(timeLog => timeLog.Project)
-           .OrderByDescending(timeLog => timeLog.LogDate)
+           .OrderByDescending(timeLog => timeLog.HoursWorked)
            .AsQueryable();
 
         query = AddDateIfHasValue(fromDate, toDate, query);
